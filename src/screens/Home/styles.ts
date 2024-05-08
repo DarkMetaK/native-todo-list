@@ -19,5 +19,10 @@ export const styles = StyleSheet.create({
   inputContainer: {
     marginTop: -35,
     paddingHorizontal: 24,
-  }
+  },
+
+  taskList: {
+    paddingHorizontal: 24,
+    paddingVertical: 32,
+  },
 })
