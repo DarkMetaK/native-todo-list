@@ -1,4 +1,4 @@
-import { TouchableOpacity, View } from 'react-native'
+import { TouchableOpacity, View, Alert } from 'react-native'
 import { CheckBox } from '@rneui/themed'
 import Feather from '@expo/vector-icons/Feather';
 
@@ -9,9 +9,27 @@ interface TaskItemProps {
   title: string
   completed: boolean
   onCheck: (id: string, checked: boolean) => void
+  onDelete: (id: string) => void
 }
 
-export function TaskItem({ id, title, completed, onCheck } : TaskItemProps) {
+export function TaskItem({ id, title, completed, onCheck, onDelete } : TaskItemProps) {
+  function handleDeleteTask() {
+    Alert.alert(
+      "Remover tarefa",
+      "Tem certeza que deseja remover esta tarefa? Essa é uma ação irreversível!",
+      [
+        {
+          text: 'Não',
+          style: 'cancel',
+        },
+        {
+          text: 'Sim',
+          onPress: () => onDelete(id),
+        },
+      ]
+    )
+  }
+
   return (
     <View style={styles.container}>
         <CheckBox
@@ -32,11 +50,7 @@ export function TaskItem({ id, title, completed, onCheck } : TaskItemProps) {
           }}
         />
 
-        {/* <Text style={styles.title} numberOfLines={2}>
-          {title}
-        </Text> */}
-
-        <TouchableOpacity>
+        <TouchableOpacity onPress={handleDeleteTask}>
           <Feather
             name="trash-2"
             size={24}

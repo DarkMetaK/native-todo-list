@@ -21,15 +21,21 @@ export function Home() {
     },
   ])
 
+  const completedTasksAmount = tasks.filter((task) => task.completed).length
+
   function handleCheckTask(id: string, completed: boolean) {
     setTasks((prevTasks) =>
       prevTasks.map((task) => {
         if (task.id === id) {
-          task.completed = completed;
+          task.completed = completed
         }
-        return task;
+        return task
       })
-    );
+    )
+  }
+
+  function handleDeleteTask(id: string) {
+    setTasks((state) => state.filter((task) => task.id != id))
   }
 
   return (
@@ -53,12 +59,13 @@ export function Home() {
             title={item.title}
             completed={item.completed}
             onCheck={handleCheckTask}
+            onDelete={handleDeleteTask}
           />
         )}
         ListHeaderComponent={
           <ListHeader
-            createdAmount={1}
-            completedAmount={1}
+            createdAmount={tasks.length}
+            completedAmount={completedTasksAmount}
           />
         }
         style={styles.taskList}
