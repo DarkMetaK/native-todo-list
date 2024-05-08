@@ -25,4 +25,10 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingVertical: 32,
   },
+
+  loading: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
 })

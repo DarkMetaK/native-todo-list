@@ -1,5 +1,7 @@
-import { useState } from 'react'
-import { FlatList, View } from 'react-native'
+import { useContext } from 'react'
+import { FlatList, View, ActivityIndicator } from 'react-native'
+
+import { tasksContext } from '../../contexts/tasks'
 
 import { styles } from './styles'
 import { Logo } from '../../components/Logo'
@@ -8,35 +10,8 @@ import { ListHeader } from '../../components/ListHeader'
 import { TaskItem } from '../../components/TaskItem'
 
 export function Home() {
-  const [tasks, setTasks] = useState([
-    {
-      id: '1',
-      title: 'Testejjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjsfsdkfnsjkfbsjdkfsndkjfsjkdfsdjfbsjdfkbsfjdbjk',
-      completed: false,
-    },
-    {
-      id: '2',
-      title: 'Teste 2',
-      completed: true,
-    },
-  ])
-
+  const { tasks, isLoading } = useContext(tasksContext)
   const completedTasksAmount = tasks.filter((task) => task.completed).length
-
-  function handleCheckTask(id: string, completed: boolean) {
-    setTasks((prevTasks) =>
-      prevTasks.map((task) => {
-        if (task.id === id) {
-          task.completed = completed
-        }
-        return task
-      })
-    )
-  }
-
-  function handleDeleteTask(id: string) {
-    setTasks((state) => state.filter((task) => task.id != id))
-  }
 
   return (
     <View style={styles.container}>
@@ -46,31 +21,34 @@ export function Home() {
       </View>
 
       <View style={styles.inputContainer}>
-        <Input />
+        <Input
+          placeholder="Adicione uma nova tarefa"
+        />
       </View>
 
-      <FlatList
-        data={tasks}
-        keyExtractor={task => task.id}
-        renderItem={({ item }) => (
-          <TaskItem
-            key={item.id}
-            id={item.id}
-            title={item.title}
-            completed={item.completed}
-            onCheck={handleCheckTask}
-            onDelete={handleDeleteTask}
-          />
-        )}
-        ListHeaderComponent={
-          <ListHeader
-            createdAmount={tasks.length}
-            completedAmount={completedTasksAmount}
-          />
-        }
-        style={styles.taskList}
-      />
-      
+      {isLoading ? (
+        <View style={styles.loading}>
+          <ActivityIndicator size={64} />
+        </View>
+      ) : (
+        <FlatList
+          data={tasks}
+          keyExtractor={task => task.id}
+          renderItem={({ item }) => (
+            <TaskItem
+              key={item.id}
+              task={item}
+            />
+          )}
+          ListHeaderComponent={
+            <ListHeader
+              createdAmount={tasks.length}
+              completedAmount={completedTasksAmount}
+            />
+          }
+          style={styles.taskList}
+        />        
+      )} 
     </View>
   )
 }
