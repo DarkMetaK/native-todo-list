@@ -27,7 +27,7 @@ export function TasksProvider({ children }: TasksProvider) {
 
   useEffect(() => {
     async function loadTasksFromLocalStorage() {
-      const tasksJson = await AsyncStorage.getItem('darkmetak-todo')
+      const tasksJson = await AsyncStorage.getItem('darkmetak-todo:tasks')
       
       if (tasksJson !== null) {
         const tasks = JSON.parse(tasksJson)
@@ -42,7 +42,7 @@ export function TasksProvider({ children }: TasksProvider) {
 
   useEffect(() => {
     async function saveUpdatedTasks() {
-      await AsyncStorage.setItem('darkmetak-todo', JSON.stringify(tasks))
+      await AsyncStorage.setItem('darkmetak-todo:tasks', JSON.stringify(tasks))
       setIsLoading(false)
     }
 

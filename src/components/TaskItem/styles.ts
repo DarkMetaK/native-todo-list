@@ -9,8 +9,6 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 16,
     borderRadius: 8,
-
-    backgroundColor: '#262626',
   },
 
   checkContainer: {
@@ -23,7 +21,6 @@ export const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: 'normal',
     lineHeight: 20,
-    color: '#F2F2F2',
   },
 
 })

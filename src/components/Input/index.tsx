@@ -3,11 +3,13 @@ import { TextInput, TextInputProps, TouchableOpacity, View } from 'react-native'
 import Feather from '@expo/vector-icons/Feather'
 
 import { tasksContext } from '../../contexts/tasks'
+import { useTheme } from '../../hooks/useTheme'
 
 import { styles } from './styles'
 
 export function Input(props: TextInputProps) {
   const [title, setTitle] = useState('')
+  const { colors } = useTheme()
   const { addNewTask, isLoading } = useContext(tasksContext)
 
   function handleAddNewTask() {
@@ -24,9 +26,13 @@ export function Input(props: TextInputProps) {
       <TextInput
         value={title}
         onChangeText={(e) => setTitle(e)}
-        style={styles.input}
-        placeholderTextColor="#808080"
+        placeholderTextColor={colors.gray[500]}
         {...props}
+        style={{
+          ...styles.input,
+          backgroundColor: colors.gray[700],
+          color: colors.gray[100],
+        }}
       />
 
       <TouchableOpacity

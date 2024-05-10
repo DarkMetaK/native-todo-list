@@ -1,7 +1,10 @@
 import { useContext } from 'react'
-import { FlatList, View, ActivityIndicator } from 'react-native'
+import { FlatList, View, ActivityIndicator, TouchableOpacity } from 'react-native'
+import Feather from '@expo/vector-icons/Feather'
 
+import { themesContext } from '../../contexts/themes'
 import { tasksContext } from '../../contexts/tasks'
+import { useTheme } from '../../hooks/useTheme'
 
 import { styles } from './styles'
 import { Logo } from '../../components/Logo'
@@ -10,14 +13,31 @@ import { ListHeader } from '../../components/ListHeader'
 import { TaskItem } from '../../components/TaskItem'
 
 export function Home() {
+  const { toggleTheme } = useContext(themesContext)
   const { tasks, isLoading } = useContext(tasksContext)
+  const { colors, activeTheme } = useTheme()
+
   const completedTasksAmount = tasks.filter((task) => task.completed).length
 
   return (
-    <View style={styles.container}>
+    <View style={{
+      ...styles.container,
+      backgroundColor: colors.gray[800],
+    }}>
 
-      <View style={styles.header}>
+      <View style={{
+        ...styles.header,
+        backgroundColor: colors.gray[900],
+      }}>
         <Logo />
+
+        <TouchableOpacity onPress={() => toggleTheme()}>
+          <Feather
+            name={activeTheme === 'dark' ? 'sun' : 'moon'}
+            size={24}
+            color={colors.gray[100]}
+          />
+        </TouchableOpacity>
       </View>
 
       <View style={styles.inputContainer}>
@@ -46,7 +66,7 @@ export function Home() {
               completedAmount={completedTasksAmount}
             />
           }
-          style={styles.taskList}
+          contentContainerStyle={styles.taskList}
         />        
       )} 
     </View>

@@ -3,14 +3,16 @@ import { TouchableOpacity, View, Alert } from 'react-native'
 import { CheckBox } from '@rneui/themed'
 import Feather from '@expo/vector-icons/Feather'
 
-import { styles } from './styles'
+import { useTheme } from '../../hooks/useTheme'
 import { TaskProps, tasksContext } from '../../contexts/tasks'
+import { styles } from './styles'
 
 interface TaskItemProps {
   task: TaskProps
 }
 
 export function TaskItem({ task: { id, title, completed} } : TaskItemProps) {
+  const { colors } = useTheme()
   const { updateTask, deleteTask } = useContext(tasksContext)
 
   function handleDeleteTask() {
@@ -31,7 +33,10 @@ export function TaskItem({ task: { id, title, completed} } : TaskItemProps) {
   }
 
   return (
-    <View style={styles.container}>
+    <View style={{
+      ...styles.container,
+      backgroundColor: colors.gray[700],
+    }}>
         <CheckBox
           checked={completed}
           onPress={() => updateTask(id)}
@@ -44,6 +49,7 @@ export function TaskItem({ task: { id, title, completed} } : TaskItemProps) {
           textStyle={{
             ...styles.checkTitle,
             textDecorationLine: completed ? 'line-through' : 'none',
+            color: colors.gray[100],
           }}
           titleProps={{
             numberOfLines: 2,
@@ -54,7 +60,7 @@ export function TaskItem({ task: { id, title, completed} } : TaskItemProps) {
           <Feather
             name="trash-2"
             size={24}
-            color="#808080"
+            color={colors.gray[500]}
           />
         </TouchableOpacity>
     </View>
